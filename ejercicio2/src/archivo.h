@@ -36,6 +36,8 @@ void cerrar_archivo(t_archivo* archivo);
 
 char* leer_linea_de_archivo(t_archivo* archivo);
 
+t_archivo* map_lines(t_archivo* archivo);
+
 
 
 #endif /* ARCHIVO_H_ */
