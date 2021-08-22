@@ -41,3 +41,37 @@ void cerrar_archivo(t_archivo* archivo) {
 	free(archivo->path);
 	free(archivo);
 }
+
+/**
+ * Lee el numero de linea pasado por parametro de archivo, se asume que el archivo esta abierto
+ */
+char* leer_linea_de_archivo(t_archivo* archivo, int numero_linea) {
+	char* lineaLeida;
+	size_t largoLinea = 0; //getline lee hasta encontrar un \0 o character nulo si el largo es 0.
+	ssize_t readResult;
+	const char* NOT_FOUND = "NOT FOUND";
+
+	int lineaActual = 0;
+
+	while ((readResult = getline(&lineaLeida, &largoLinea, archivo->file)) != -1 && lineaActual <= numero_linea) {
+		if (lineaActual == numero_linea) {
+			break;
+		}
+		lineaActual++;
+	}
+
+	// rebobinamos el vhs
+	fseek(archivo->file, 0, SEEK_SET);
+
+	// se paso del tamanio de archivo, asi que hay que limpiar la ultima linea leida y retornar el error
+	// hay que corregir el manejo de errores, pero ¯\_(ツ)_/¯
+	if (lineaActual < numero_linea) {
+		free(lineaLeida);
+		lineaLeida = malloc(sizeof(char) * (strlen(NOT_FOUND) + 1));
+		strcpy(lineaLeida, NOT_FOUND);
+		return lineaLeida;
+	}
+
+	strcat(lineaLeida, "\0");
+	return lineaLeida;
+}
