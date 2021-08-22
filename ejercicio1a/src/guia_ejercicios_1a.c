@@ -21,6 +21,8 @@ int main(void) {
 	char* c = string_concat(a, b);
 
 	printf("%s\n", c); /* prints !!!Hello World!!! */
+	free(c);
+
 	return EXIT_SUCCESS;
 }
 

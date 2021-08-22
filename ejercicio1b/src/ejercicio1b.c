@@ -21,6 +21,7 @@ int main(void) {
 	string_concat_dinamyc("Hola ", b, &c); //c es un puntero, &c es doble indireccion (puntero a un puntero de char), para poder pisar c, porque se pasa por valor caso contrario.
 
 	printf("%s\n", c);
+	free(c);
 	return EXIT_SUCCESS;
 }
 
