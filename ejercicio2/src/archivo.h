@@ -35,7 +35,7 @@ t_archivo abrir_archivo(char* path, t_mode mode);
 
 void cerrar_archivo(t_archivo* archivo);
 
-char* leer_linea_de_archivo(t_archivo* archivo, int numero_linea);
+char* leer_linea_de_archivo(t_archivo archivo, int numero_linea);
 
 void imprimir_por_consola(char* unaLinea);
 

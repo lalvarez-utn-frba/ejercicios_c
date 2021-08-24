@@ -44,15 +44,15 @@ void cerrar_archivo(t_archivo* archivo) {
 /**
  * Lee el numero de linea pasado por parametro de archivo, se asume que el archivo esta abierto
  */
-char* leer_linea_de_archivo(t_archivo* archivo, int numero_linea) {
-	char* lineaLeida;
+char* leer_linea_de_archivo(t_archivo archivo, int numero_linea) {
+	char* lineaLeida =0;
 	size_t largoLinea = 0; //getline lee hasta encontrar un \0 o character nulo si el largo es 0.
 	ssize_t readResult;
 	const char* NOT_FOUND = "NOT FOUND";
 
 	int lineaActual = 0;
 
-	while ((readResult = getline(&lineaLeida, &largoLinea, archivo->file)) != -1 && lineaActual <= numero_linea) {
+	while ((readResult = getline(&lineaLeida, &largoLinea, archivo.file)) != -1 && lineaActual <= numero_linea) {
 		if (lineaActual == numero_linea) {
 			break;
 		}
@@ -60,7 +60,7 @@ char* leer_linea_de_archivo(t_archivo* archivo, int numero_linea) {
 	}
 
 	// rebobinamos el vhs
-	fseek(archivo->file, 0, SEEK_SET);
+	fseek(archivo.file, 0, SEEK_SET);
 
 	// se paso del tamanio de archivo, asi que hay que limpiar la ultima linea leida y retornar el error
 	// hay que corregir el manejo de errores, pero ¯\_(ツ)_/¯
@@ -82,12 +82,12 @@ void imprimir_por_consola(char* unaLinea){
 void aplicar_funcion_a_lineas_archivo(t_archivo archivo, void (*funcion)(char* linea)){
 	size_t largoLinea = 0;
 	ssize_t readResult;
-	char* lineaLeida;
+	char* lineaLeida =0;
 	int lineaActual = 0;
 	while ((readResult = getline(&lineaLeida, &largoLinea, archivo.file)) != -1) {
 		    strcat(lineaLeida, "\0");
             funcion(lineaLeida);
-		    free(lineaLeida);
 			lineaActual++;
 		}
+	 free(lineaLeida);
 }
