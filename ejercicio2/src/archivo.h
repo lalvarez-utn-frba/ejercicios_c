@@ -31,7 +31,7 @@ typedef struct archivo {
 	FILE* file;
 } t_archivo;
 
-t_archivo* abrir_archivo(char* path, t_mode mode);
+t_archivo abrir_archivo(char* path, t_mode mode);
 
 void cerrar_archivo(t_archivo* archivo);
 
