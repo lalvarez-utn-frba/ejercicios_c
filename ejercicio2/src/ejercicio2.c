@@ -23,6 +23,8 @@ int main(void) {
 	// la idea es delegar la destruccion del recurso al TAD
 	// si tiene TADs anidados, estos deberan encargarse de liberar sus recursos correspondientes.
 
+	aplicar_funcion_a_lineas_archivo(archivo, *imprimir_por_consola);
+
 	cerrar_archivo(&archivo);
 	free(lineaLeida);
 

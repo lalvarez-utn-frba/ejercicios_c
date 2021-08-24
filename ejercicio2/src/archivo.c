@@ -74,3 +74,20 @@ char* leer_linea_de_archivo(t_archivo* archivo, int numero_linea) {
 	strcat(lineaLeida, "\0");
 	return lineaLeida;
 }
+
+void imprimir_por_consola(char* unaLinea){
+	printf("Linea leida: %s\n", unaLinea);
+}
+
+void aplicar_funcion_a_lineas_archivo(t_archivo archivo, void (*funcion)(char* linea)){
+	size_t largoLinea = 0;
+	ssize_t readResult;
+	char* lineaLeida;
+	int lineaActual = 0;
+	while ((readResult = getline(&lineaLeida, &largoLinea, archivo.file)) != -1) {
+		    strcat(lineaLeida, "\0");
+            funcion(lineaLeida);
+		    free(lineaLeida);
+			lineaActual++;
+		}
+}
