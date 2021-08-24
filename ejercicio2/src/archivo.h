@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <commons/collections/list.h>
 
 typedef enum {
 	CLOSED,
@@ -30,14 +31,16 @@ typedef struct archivo {
 	FILE* file;
 } t_archivo;
 
-t_archivo* abrir_archivo(char* path, t_mode mode);
+t_archivo abrir_archivo(char* path, t_mode mode);
 
 void cerrar_archivo(t_archivo* archivo);
 
-char* leer_linea_de_archivo(t_archivo* archivo);
+char* leer_linea_de_archivo(t_archivo archivo, int numero_linea);
 
-t_archivo* map_lines(t_archivo* archivo);
+void imprimir_por_consola(char* unaLinea);
 
+void aplicar_funcion_a_lineas_archivo(t_archivo archivo, void (*funcion)(char* linea));
 
+t_archivo* escribir_lista_al_archivo(t_archivo* archivo, t_list* lista, char* (*funcion)(t_list* lista));
 
 #endif /* ARCHIVO_H_ */
