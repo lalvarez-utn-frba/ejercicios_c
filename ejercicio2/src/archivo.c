@@ -45,7 +45,7 @@ void cerrar_archivo(t_archivo* archivo) {
  * Lee el numero de linea pasado por parametro de archivo, se asume que el archivo esta abierto
  */
 char* leer_linea_de_archivo(t_archivo archivo, int numero_linea) {
-	char* lineaLeida =0;
+	char* lineaLeida=0;
 	size_t largoLinea = 0; //getline lee hasta encontrar un \0 o character nulo si el largo es 0.
 	ssize_t readResult;
 	const char* NOT_FOUND = "NOT FOUND";
@@ -80,7 +80,7 @@ void imprimir_por_consola(char* unaLinea){
 }
 
 void aplicar_funcion_a_lineas_archivo(t_archivo archivo, void (*funcion)(char* linea)){
-	size_t largoLinea = 0;
+	size_t largoLinea=0;
 	ssize_t readResult;
 	char* lineaLeida =0;
 	int lineaActual = 0;

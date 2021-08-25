@@ -12,7 +12,7 @@
 
 int main(void) {
 	t_archivo archivo = abrir_archivo("/home/utnso/prueba.txt", READ);
-    char* lineaLeida = leer_linea_de_archivo(archivo, 9);
+    char* lineaLeida = leer_linea_de_archivo(archivo, 2);
 	printf("el path es: %s\n", archivo.path);
 	printf("el estado es: %d\n", archivo.state);
 	printf("el modo es: %d\n", archivo.mode);
