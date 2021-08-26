@@ -1,0 +1,5 @@
+Leyendo la primer linea de archivazo
+LINEA2222
+LINEA333
+LINEA444
+LINEA555
