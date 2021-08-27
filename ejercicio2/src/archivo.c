@@ -31,6 +31,10 @@ t_archivo abrir_archivo(char* path, t_mode mode) {
 		file.file = fopen(path, "a");
 		file.state = OPEN;
 		break;
+	case READ_WRITE:
+		file.file = fopen(path, "r+");
+		file.state = OPEN;
+		break;
 	}
 
 	return file;
@@ -85,9 +89,26 @@ void aplicar_funcion_a_lineas_archivo(t_archivo archivo, void (*funcion)(char* l
 	char* lineaLeida =0;
 	int lineaActual = 0;
 	while ((readResult = getline(&lineaLeida, &largoLinea, archivo.file)) != -1) {
-		    strcat(lineaLeida, "\0");
-            funcion(lineaLeida);
-			lineaActual++;
-		}
-	 free(lineaLeida);
+		strcat(lineaLeida, "\0");
+		funcion(lineaLeida);
+		lineaActual++;
+	}
+	free(lineaLeida);
+}
+
+void escribir_string_al_archivo(t_archivo archivo, char* cadena) {
+	//fseek(archivo.file, 0, SEEK_END);
+	fputs(cadena, archivo.file);
+}
+
+void escribir_lista_al_archivo(t_archivo archivo, t_list* lista, char* (*funcion)(t_link_element* element)){
+	char* stringAEscribir = NULL;
+	t_list_iterator* listIterator = list_iterator_create(lista);
+
+	while(list_iterator_has_next(listIterator)) {
+		t_link_element* listElement = list_iterator_next(listIterator);
+		stringAEscribir = (char*) funcion(listElement);
+		escribir_string_al_archivo(archivo, stringAEscribir);
+		free(stringAEscribir);
+	}
 }
