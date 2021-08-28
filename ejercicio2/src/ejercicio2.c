@@ -11,7 +11,7 @@
 #include "archivo.h"
 
 void llenar_lista(t_list* lista);
-char* toStringMock(t_link_element*);
+char* toStringMock(void*);
 
 int main(void) {
 
@@ -44,13 +44,13 @@ int main(void) {
 }
 
 void llenar_lista(t_list* lista) {
-	list_add(lista, "hola");
-	list_add(lista, "mundo");
-	list_add(lista, "c");
-	list_add(lista, "lista");
-	list_add(lista, "chau");
+	list_add(lista, "hola\n");
+	list_add(lista, "mundo\n");
+	list_add(lista, "c\n");
+	list_add(lista, "lista\n");
+	list_add(lista, "chau\n");
 }
 
-char* toStringMock(t_link_element* element) {
-	return element->data;
+char* toStringMock(void* string) {
+	return (char*) string;
 }

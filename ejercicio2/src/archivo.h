@@ -44,6 +44,6 @@ void aplicar_funcion_a_lineas_archivo(t_archivo archivo, void (*funcion)(char* l
 
 char* capitalize(t_list* lista);
 
-void escribir_lista_al_archivo(t_archivo archivo, t_list* lista, char* (*funcion)(t_link_element* element));
+void escribir_lista_al_archivo(t_archivo archivo, t_list* lista, char* (*funcion)(void* element));
 
 #endif /* ARCHIVO_H_ */

@@ -97,18 +97,17 @@ void aplicar_funcion_a_lineas_archivo(t_archivo archivo, void (*funcion)(char* l
 }
 
 void escribir_string_al_archivo(t_archivo archivo, char* cadena) {
-	//fseek(archivo.file, 0, SEEK_END);
+	fseek(archivo.file, 0, SEEK_END);
 	fputs(cadena, archivo.file);
 }
 
-void escribir_lista_al_archivo(t_archivo archivo, t_list* lista, char* (*funcion)(t_link_element* element)){
+void escribir_lista_al_archivo(t_archivo archivo, t_list* lista, char* (*funcion)(void* element)) {
 	char* stringAEscribir = NULL;
 	t_list_iterator* listIterator = list_iterator_create(lista);
 
 	while(list_iterator_has_next(listIterator)) {
-		t_link_element* listElement = list_iterator_next(listIterator);
-		stringAEscribir = (char*) funcion(listElement);
-		escribir_string_al_archivo(archivo, stringAEscribir);
+		char* stringToWrite = funcion(list_iterator_next(listIterator));
+		escribir_string_al_archivo(archivo, stringToWrite);
 		free(stringAEscribir);
 	}
 }
