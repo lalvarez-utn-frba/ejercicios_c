@@ -110,4 +110,6 @@ void escribir_lista_al_archivo(t_archivo archivo, t_list* lista, char* (*funcion
 		escribir_string_al_archivo(archivo, stringToWrite);
 		free(stringAEscribir);
 	}
+
+	list_iterator_destroy(listIterator);
 }
