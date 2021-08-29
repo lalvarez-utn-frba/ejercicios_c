@@ -24,6 +24,7 @@ t_list* leer_archivo_entrada(FILE* archivo) {
 
 void procesar_archivos (FILE* archivoEntrada, FILE* archivoSalida) {
 	t_list* listaPersonas = leer_archivo_entrada(archivoEntrada);
+	t_list* listaOrdenada = ordenar_lista_personas(listaPersonas);
 
 	list_destroy_and_destroy_elements(listaPersonas, (void*)*persona_destroy);
 }
