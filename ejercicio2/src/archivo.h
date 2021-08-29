@@ -21,7 +21,8 @@ typedef enum {
 typedef enum {
 	READ,
 	WRITE,
-	APPEND
+	APPEND,
+	READ_WRITE
 } t_mode;
 
 typedef struct archivo {
@@ -41,6 +42,8 @@ void imprimir_por_consola(char* unaLinea);
 
 void aplicar_funcion_a_lineas_archivo(t_archivo archivo, void (*funcion)(char* linea));
 
-t_archivo* escribir_lista_al_archivo(t_archivo* archivo, t_list* lista, char* (*funcion)(t_list* lista));
+char* capitalize(t_list* lista);
+
+void escribir_lista_al_archivo(t_archivo archivo, t_list* lista, char* (*funcion)(void* element));
 
 #endif /* ARCHIVO_H_ */

@@ -20,28 +20,27 @@ int main(void) {
 
 	char* c = string_concat(a, b);
 
-	printf("%s\n", c); /* prints !!!Hello World!!! */
+	printf("%s\n", c);
 	free(c);
 
 	return EXIT_SUCCESS;
 }
 
 char* string_concat(const char* a, const char* b) {
-//	int z[] = {1, 3, 5, 7, 9, 11, 13};
 
-//	printf("sizeof a: %d\n", sizeof(char) * strlen(a));
-//	printf("sizeof b: %d\n", sizeof(char) * strlen(b));
 	int sizeOfA = sizeof(char) * strlen(a);
 	int sizeOfB = sizeof(char) * strlen(b);
 
-	char* newString = malloc(sizeOfA + sizeOfB + 1);
+  	char* newString = malloc( sizeOfA + sizeOfB +1);
+	//char* newString = calloc(strlen(a) + strlen(b) +1 ,sizeof(char));
 
-	strcat(newString, a);
+	/*if (newString == NULL) {
+	        printf("Memory not allocated.\n");
+	 }*/
+
+	strcpy(newString, a);
 	strcat(newString, b);
-
-//	printf("sizeof newString: %d\n", sizeof(char) * strlen(newString));
-//	printf("sizeof newString: %d\n", sizeof(newString));
-//	printf("sizeof z: %d\n", sizeof(z) / sizeof(int));
+	strcat(newString, "\0");
 
 	return newString;
 }

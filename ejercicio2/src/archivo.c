@@ -31,6 +31,10 @@ t_archivo abrir_archivo(char* path, t_mode mode) {
 		file.file = fopen(path, "a");
 		file.state = OPEN;
 		break;
+	case READ_WRITE:
+		file.file = fopen(path, "r+");
+		file.state = OPEN;
+		break;
 	}
 
 	return file;
@@ -45,7 +49,7 @@ void cerrar_archivo(t_archivo* archivo) {
  * Lee el numero de linea pasado por parametro de archivo, se asume que el archivo esta abierto
  */
 char* leer_linea_de_archivo(t_archivo archivo, int numero_linea) {
-	char* lineaLeida =0;
+	char* lineaLeida=0;
 	size_t largoLinea = 0; //getline lee hasta encontrar un \0 o character nulo si el largo es 0.
 	ssize_t readResult;
 	const char* NOT_FOUND = "NOT FOUND";
@@ -80,14 +84,32 @@ void imprimir_por_consola(char* unaLinea){
 }
 
 void aplicar_funcion_a_lineas_archivo(t_archivo archivo, void (*funcion)(char* linea)){
-	size_t largoLinea = 0;
+	size_t largoLinea=0;
 	ssize_t readResult;
 	char* lineaLeida =0;
 	int lineaActual = 0;
 	while ((readResult = getline(&lineaLeida, &largoLinea, archivo.file)) != -1) {
-		    strcat(lineaLeida, "\0");
-            funcion(lineaLeida);
-			lineaActual++;
-		}
-	 free(lineaLeida);
+		strcat(lineaLeida, "\0");
+		funcion(lineaLeida);
+		lineaActual++;
+	}
+	free(lineaLeida);
+}
+
+void escribir_string_al_archivo(t_archivo archivo, char* cadena) {
+	fseek(archivo.file, 0, SEEK_END);
+	fputs(cadena, archivo.file);
+}
+
+void escribir_lista_al_archivo(t_archivo archivo, t_list* lista, char* (*funcion)(void* element)) {
+	char* stringAEscribir = NULL;
+	t_list_iterator* listIterator = list_iterator_create(lista);
+
+	while(list_iterator_has_next(listIterator)) {
+		char* stringToWrite = funcion(list_iterator_next(listIterator));
+		escribir_string_al_archivo(archivo, stringToWrite);
+		free(stringAEscribir);
+	}
+
+	list_iterator_destroy(listIterator);
 }
