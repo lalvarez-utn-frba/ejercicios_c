@@ -8,16 +8,6 @@
 #include <string.h>
 #include "persona.h"
 
-int string_bytes_size(char* string) {
-	return sizeof(char) * (strlen(string) + 1);
-}
-
-void string_copy(char** dest, char* origin) {
-	*dest = calloc(strlen(origin) + 1, sizeof(char));
-	strcpy(*dest, origin);
-	strcat(*dest, "\0");
-}
-
 persona crear_persona_desde_string (char* linea) {
 	persona p;
 	char** campos = string_split(linea, ";");
