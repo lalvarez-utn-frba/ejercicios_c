@@ -20,24 +20,37 @@ void string_copy(char** dest, char* origin) {
 
 persona crear_persona_desde_string (char* linea) {
 	persona p;
+	p.region = NULL;
+	p.nombre_apellido = NULL;
+
 	char** campos = string_split(linea, ";");
-	char* ptr = NULL;
+	//char* ptr = NULL;
 
-	string_copy(&p.region, campos[0]);
-	string_copy(&p.nombre_apellido, campos[1]);
-	p.edad = strtol(campos[2], &ptr, 10);
-	p.telefono = strtol(campos[3], &ptr, 10);
-	p.dni = strtol(campos[4], &ptr, 10);
-	p.saldo = strtod(campos[5], &ptr);
+	//strcpy(p.region, campos[0]);
+	//strcpy(p.nombre_apellido, campos[1]);
+	p.region = campos[0];
+	p.nombre_apellido = campos[1];
+	p.edad = atoi(campos[2]);
+	p.telefono = atoi(campos[3]);
+	p.dni = atoi(campos[4]);
+	p.saldo = atoi(campos[5]);
 
+    //free(p.region);
+    //free(p.nombre_apellido);
+	free(campos[1]);
+	free(campos[2]);
+	free(campos[3]);
+	free(campos[4]);
+	free(campos[5]);
 	free(campos);
+
 	//free(ptr);
 
 	return p;
 }
 
 void persona_destroy(persona* p) {
-	free(&p->nombre_apellido);
-	free(&p->region);
-	//free(p);
+	free(p->nombre_apellido);
+	free(p->region);
+	free(p);
 }
