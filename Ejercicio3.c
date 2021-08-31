@@ -24,8 +24,6 @@ int main(void) {
 	cerrar_archivo(&personasEntrada);
 
 
-	//free(outp);
-
 	return EXIT_SUCCESS;
 }
 

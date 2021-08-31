@@ -15,7 +15,7 @@ char* leer_lineas(archivo archivoPersonas){
 
 	archivo salida; //
 
-	salida = abrir_archivo("/home/utnso/workspace/Ejercicio3/personasSalida.txt", APPEND);
+	salida = abrir_archivo("/home/utnso/workspace/Ejercicio3/personasSalida.txt", WRITE);
 
 	char** lineas = NULL;
 	char* linea = string_new();
@@ -30,8 +30,11 @@ char* leer_lineas(archivo archivoPersonas){
 	char* documento = NULL;
 	char* monto = NULL;
 
-	char* concatenacion = NULL;
+	char* concatenacion;
 	size_t total = 0;
+
+	int x = 0;
+
 /*
 	concatenacion = string_new();
 	pais = string_new();
@@ -76,6 +79,7 @@ char* leer_lineas(archivo archivoPersonas){
 		total = 4 * strlen("|") + strlen(pais) + strlen(nombreApellido) + strlen(numeroTelefono) + strlen(edad) + strlen(documento) + strlen(monto) + 1;
 
 		concatenacion = malloc(sizeof(char) * total );
+		strcpy(concatenacion, "\0");
 
 		puts(pais);
 		puts(nombreApellido);
@@ -90,7 +94,7 @@ char* leer_lineas(archivo archivoPersonas){
             should_string(string) be equal to("Hello world 23");
 		 */
 
-		string_append_with_format(&concatenacion, "%s;%s;%s;%s;%s;%s;", pais,
+		string_append_with_format(&concatenacion, "%s|%s|%s|%s|%s|%s|", pais,
 																		nombreApellido,
 																		edad,
 																		numeroTelefono,
@@ -98,29 +102,52 @@ char* leer_lineas(archivo archivoPersonas){
 																		monto);
 
 
+		if(salida.puntero_archivo == NULL){
+
+			return -99999;
+		}
 
 		//fwrite( concatenacion, sizeof(char), strlen(concatenacion)+1, salida.puntero_archivo);
 		//fwrite( concatenacion, strlen(concatenacion)+1, 1, salida.puntero_archivo);
 		fputs(concatenacion, salida.puntero_archivo);
 
 		free(concatenacion);
+
+		free(pais);
+		free(nombreApellido);
+		free(edad);
+		free(numeroTelefono);
+		free(documento);
+		free(monto);
+
+		//free(linea);// esto es problematico no se porque, ESTO NO LO PUEDO LIBERAR NO SE QUE PS¿RAFJDNDSFK
+
+
+
+		// si pasa algo raro en el codigo MIRAR ESTO
+		while(lineas[x] != NULL){
+						free( lineas[x] );
+						x++;
+					}
+
 		total=0;
 		contador++;
 		}//fin while
 
 
-			free(pais);
-			free(nombreApellido);
-			free(edad);
-			free(numeroTelefono);
-			free(documento);
-			free(monto);
+		//int x = 0;
 
 
+
+
+
+
+		//free(*lineas); // TODO TENGO QUE LIBERAR LOS STRINGS INTERIORES... Y NO PUEDO..
 
 
 
 		cerrar_archivo(&salida);
+
 
 	}// fin if
 
