@@ -15,4 +15,6 @@ int string_bytes_size(char* string);
 
 void string_copy(char** a, char* b);
 
+char* string_copy_return (char* origin);
+
 #endif /* STRING_UTILS_GROUP_H_ */

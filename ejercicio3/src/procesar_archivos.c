@@ -6,7 +6,6 @@
  */
 #include "procesar_archivos.h"
 
-static t_list* ordenar_lista_personas(t_list* listaPersonas);
 static bool comparadorPersona(persona*, persona*);
 
 t_list* leer_archivo_entrada(FILE* archivo) {
@@ -14,10 +13,11 @@ t_list* leer_archivo_entrada(FILE* archivo) {
 	size_t largoLinea = 0; //getline lee hasta encontrar un \0 o character nulo si el largo es 0.
 	ssize_t readResult;
 	t_list* listaPersonas = list_create();
+	persona* persona;
 
 	while ((readResult = getline(&lineaLeida, &largoLinea, archivo)) != -1) {
-		persona persona = crear_persona_desde_string(lineaLeida);
-		list_add(listaPersonas, &persona);
+		persona = crear_persona_desde_string(lineaLeida);
+		list_add(listaPersonas, persona);
 	}
 
 	free(lineaLeida);
@@ -25,18 +25,18 @@ t_list* leer_archivo_entrada(FILE* archivo) {
 	return listaPersonas;
 }
 
-bool comparadorPersona(persona* p1, persona* p2) {
-	char** tmpRegionP1 = NULL;
-	char** tmpRegionP2 = NULL;
+static bool comparadorPersona(persona* p1, persona* p2) {
+	char* tmpRegionP1 = NULL;
+	char* tmpRegionP2 = NULL;
 	int compareResult = false;
 	bool result = false;
 
-	string_copy(tmpRegionP1, p1->region);
-	string_copy(tmpRegionP2, p2->region);
-	string_to_lower(*tmpRegionP1);
-	string_to_lower(*tmpRegionP2);
+	tmpRegionP1 = strdup(p1->region);
+	tmpRegionP2 = strdup(p2->region);
+	string_to_lower(tmpRegionP1);
+	string_to_lower(tmpRegionP2);
 
-	compareResult = strcmp(*tmpRegionP1, *tmpRegionP2);
+	compareResult = strcmp(tmpRegionP1, tmpRegionP2);
 
 	if (compareResult == 0) {
 		if (p1->edad < p2->edad) {
@@ -50,21 +50,15 @@ bool comparadorPersona(persona* p1, persona* p2) {
 		result = true;
 	}
 
-	free(*tmpRegionP1);
-	free(*tmpRegionP2);
+	free(tmpRegionP1);
+	free(tmpRegionP2);
 
 	return result;
 }
 
-t_list* ordenar_lista_personas(t_list* listaPersonas) {
-	t_list* listaOrdenada = list_sorted(listaPersonas, (void*) comparadorPersona);
-
-	return listaOrdenada;
-}
-
 void procesar_archivos (FILE* archivoEntrada, FILE* archivoSalida) {
 	t_list* listaPersonas = leer_archivo_entrada(archivoEntrada);
-	t_list* listaOrdenada = ordenar_lista_personas(listaPersonas);
+	list_sort(listaPersonas, (void*) comparadorPersona);
 
-	list_destroy_and_destroy_elements(listaPersonas, (void*)*persona_destroy);
+	list_destroy_and_destroy_elements(listaPersonas, (void*) *persona_destroy);
 }

@@ -17,3 +17,10 @@ void string_copy(char** dest, char* origin) {
 	strcpy(*dest, origin);
 	strcat(*dest, "\0");
 }
+
+char* string_copy_return (char* origin) {
+	char* dest = malloc((strlen(origin) + 1) * sizeof(char));
+	strcpy(dest, origin);
+	strcat(dest, "\0");
+	return dest;
+}
