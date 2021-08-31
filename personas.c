@@ -18,7 +18,7 @@ char* leer_lineas(archivo archivoPersonas){
 	salida = abrir_archivo("/home/utnso/workspace/Ejercicio3/personasSalida.txt", WRITE);
 
 	char** lineas = NULL;
-	char* linea = string_new();
+	char* linea = NULL;
 	size_t tamanio = 0;
 	ssize_t bytes_leidos = 0;
 	int contador = 0;
@@ -33,7 +33,6 @@ char* leer_lineas(archivo archivoPersonas){
 	char* concatenacion;
 	size_t total = 0;
 
-	int x = 0;
 
 /*
 	concatenacion = string_new();
@@ -45,8 +44,6 @@ char* leer_lineas(archivo archivoPersonas){
 			monto = string_new();
 */
 	while( (bytes_leidos = getline(&linea, &tamanio, archivoPersonas.puntero_archivo) ) != -1 ){
-
-
 
 
 		lineas = string_split(linea, ";");
@@ -88,12 +85,6 @@ char* leer_lineas(archivo archivoPersonas){
 		puts(documento);
 		puts(monto);
 
-
-		/*
-		 *  string_append_with_format(&string, "%s %s %d", "Hello", "world", 23);
-            should_string(string) be equal to("Hello world 23");
-		 */
-
 		string_append_with_format(&concatenacion, "%s|%s|%s|%s|%s|%s|", pais,
 																		nombreApellido,
 																		edad,
@@ -101,11 +92,6 @@ char* leer_lineas(archivo archivoPersonas){
 																		documento,
 																		monto);
 
-
-		if(salida.puntero_archivo == NULL){
-
-			return -99999;
-		}
 
 		//fwrite( concatenacion, sizeof(char), strlen(concatenacion)+1, salida.puntero_archivo);
 		//fwrite( concatenacion, strlen(concatenacion)+1, 1, salida.puntero_archivo);
@@ -120,31 +106,25 @@ char* leer_lineas(archivo archivoPersonas){
 		free(documento);
 		free(monto);
 
-		//free(linea);// esto es problematico no se porque, ESTO NO LO PUEDO LIBERAR NO SE QUE PS¿RAFJDNDSFK
+
+		free(lineas[0]);
+		free(lineas[1]);
+		free(lineas[2]);
+		free(lineas[3]);
+		free(lineas[4]);
+		free(lineas[5]);
+		free(lineas[6]);
 
 
+		free(lineas);
 
-		// si pasa algo raro en el codigo MIRAR ESTO
-		while(lineas[x] != NULL){
-						free( lineas[x] );
-						x++;
-					}
 
 		total=0;
 		contador++;
+
 		}//fin while
 
-
-		//int x = 0;
-
-
-
-
-
-
-		//free(*lineas); // TODO TENGO QUE LIBERAR LOS STRINGS INTERIORES... Y NO PUEDO..
-
-
+		free(linea);
 
 		cerrar_archivo(&salida);
 
