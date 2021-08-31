@@ -73,7 +73,7 @@ char* leer_lineas(archivo archivoPersonas){
 		strcpy(monto, lineas[5]);
 		strcat(monto, "\0");
 
-		total = 4 * strlen("|") + strlen(pais) + strlen(nombreApellido) + strlen(numeroTelefono) + strlen(edad) + strlen(documento) + strlen(monto) + 1;
+		total =  4 * strlen("|") + strlen(pais) + strlen(nombreApellido) + strlen(numeroTelefono) + strlen(edad) + strlen(documento) + strlen(monto) + 1;
 
 		concatenacion = malloc(sizeof(char) * total );
 		strcpy(concatenacion, "\0");
@@ -92,6 +92,7 @@ char* leer_lineas(archivo archivoPersonas){
 																		documento,
 																		monto);
 
+		string_append(&concatenacion, "\n");
 
 		//fwrite( concatenacion, sizeof(char), strlen(concatenacion)+1, salida.puntero_archivo);
 		//fwrite( concatenacion, strlen(concatenacion)+1, 1, salida.puntero_archivo);
