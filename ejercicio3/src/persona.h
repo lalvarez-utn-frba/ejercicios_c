@@ -9,7 +9,9 @@
 #define PERSONA_H_
 
 #include "stdlib.h"
+#include <string.h>
 #include <commons/string.h>
+#include "string_utils.h"
 
 
 typedef struct t_persona {
@@ -21,7 +23,7 @@ typedef struct t_persona {
 	double saldo;
 } persona;
 
-persona crear_persona_desde_string (char* linea);
+persona* crear_persona_desde_string (char* linea);
 
 void persona_destroy(persona* p);
 

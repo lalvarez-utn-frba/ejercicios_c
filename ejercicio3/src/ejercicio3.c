@@ -13,9 +13,8 @@
 int main(void) {
 	puts("!!!Procesando archivo!!!");
 
-	FILE* archivoEntrada = fopen("/home/utnso/Projects/ejercicios_c/ejercicio3/src/personas.csv", "r+");
-	FILE* archivoSalida = fopen("/home/utnso/Projects/ejercicios_c/ejercicio3/src/personasOrdenado.csv", "w+");
-
+	FILE* archivoEntrada = fopen("/home/utnso/ejercicios_c/ejercicio3/personas.txt", "r+");
+	FILE* archivoSalida = fopen("/home/utnso/ejercicios_c/ejercicio3/personasOrdenada.txt", "w+");
 	procesar_archivos(archivoEntrada, archivoSalida);
 
 	fclose(archivoEntrada);
