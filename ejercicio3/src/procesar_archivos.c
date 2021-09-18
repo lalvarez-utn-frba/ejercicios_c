@@ -14,6 +14,22 @@ static bool soloMayores(persona* p) {
 	return p->edad > 18;
 }
 
+static void logearPersonasConSaldoMenorACien(t_list* personas);
+
+static void logearPersonasConSaldoMenorACien(t_list* personas) {
+	persona* p = NULL;
+	t_list_iterator* iterator = list_iterator_create(personas);
+
+	while (list_iterator_has_next(iterator)) {
+		p = list_iterator_next(iterator);
+		if (p->saldo < 100) {
+			printf("%s tiene un saldo de: %d\n", p->nombre_apellido, p->saldo);
+		}
+	}
+
+	list_iterator_destroy(iterator);
+}
+
 t_list* leer_archivo_entrada(FILE* archivo) {
 	char* lineaLeida=0;
 	size_t largoLinea = 0; //getline lee hasta encontrar un \0 o character nulo si el largo es 0.
@@ -93,6 +109,8 @@ void procesar_archivos (FILE* archivoEntrada, FILE* archivoSalida) {
 	t_list* personasMayoresOrdenadas = list_filter(listaPersonas, (void*) soloMayores);
 
 	escribir_archivo_salida_personasOrdenadas(archivoSalida, personasMayoresOrdenadas);
+
+	logearPersonasConSaldoMenorACien(listaPersonas);
 
 	list_destroy_and_destroy_elements(listaPersonas, (void*) *persona_destroy);
 	list_destroy(personasMayoresOrdenadas);
