@@ -6,16 +6,12 @@
  */
 #include "procesar_archivos.h"
 
-void iteratorListPersonas(persona* unaPersona){
-	printf("%s\n", unaPersona->region );
-	printf("%d\n", unaPersona->edad);
-	printf("%s\n", unaPersona->nombre_apellido);
-	printf("%f\n", unaPersona->saldo);
-	printf("%d\n", unaPersona->dni);
-	printf("%d\n", unaPersona->telefono);
-}
-
 static bool comparadorPersona(persona*, persona*);
+static bool soloMayores(persona*);
+
+static bool soloMayores(persona* p) {
+	return p->edad > 18;
+}
 
 t_list* leer_archivo_entrada(FILE* archivo) {
 	char* lineaLeida=0;
@@ -66,57 +62,7 @@ static bool comparadorPersona(persona* p1, persona* p2) {
 }
 
 char* agregar_campo_lineaAEscribir(persona* unaPersona){
-	char* linea_a_escribir = NULL;
-	//linea_a_escribir = "\0";
-	int tamLineaAEscribir = 0;
-	//Región | Edad | DNI | Nombre y Apellido (30 chars máximo) | Número telefónico
-
-	int sizeRegion = sizeof(char)*strlen(unaPersona->region);
-    linea_a_escribir = malloc(sizeRegion);
-    strncpy(linea_a_escribir, unaPersona->region, sizeRegion+1);
-	tamLineaAEscribir = sizeRegion;
-
-	char* edad = NULL;
-	int lengthEdad = snprintf( NULL, 0, "%d", unaPersona->edad);
-	edad = malloc(lengthEdad + 1);
-	snprintf(edad, lengthEdad + 1, "%d", unaPersona->edad);
-	tamLineaAEscribir = tamLineaAEscribir + lengthEdad;
-
-	char* dni = NULL;
-	int lengthDni = snprintf( NULL, 0, "%d", unaPersona->dni);
-	dni = malloc(lengthDni + 1 );
-	snprintf(dni, lengthDni + 1, "%d", unaPersona->dni);
-	tamLineaAEscribir = tamLineaAEscribir + lengthDni;
-
-	char nombre[30];
-    snprintf(nombre, 30, "%s", unaPersona->nombre_apellido);
-    tamLineaAEscribir = tamLineaAEscribir + 30;
-
-    char* numeroTelefonico= NULL;
-	int lengthNumeroTelefonico= snprintf( NULL, 0, "%d", unaPersona->telefono);
-	numeroTelefonico = malloc(lengthNumeroTelefonico + 1 );
-	snprintf(numeroTelefonico, lengthDni + 1, "%d", unaPersona->dni);
-	tamLineaAEscribir = tamLineaAEscribir + lengthNumeroTelefonico + 1 + 4;
-
-
-    linea_a_escribir = realloc(linea_a_escribir, tamLineaAEscribir);
-    strcat(linea_a_escribir, "|");
-    strncat(linea_a_escribir, edad , strlen(edad));
-    strcat(linea_a_escribir, "|");
-    strncat(linea_a_escribir, dni , strlen(dni));
-    strcat(linea_a_escribir, "|");
-    strncat(linea_a_escribir, nombre , 30);
-    strcat(linea_a_escribir, "|");
-    strncat(linea_a_escribir, numeroTelefonico , strlen(numeroTelefonico));
-
-    free(edad);
-    free(dni);
-    //free(unaPersona->nombre_apellido);
-    free(numeroTelefonico);
-    //free(unaPersona);
-
-	return linea_a_escribir;
-
+	return string_from_format("%s | %i | %i | %s | %i", unaPersona->region, unaPersona->edad, unaPersona->dni, unaPersona->nombre_apellido, unaPersona->telefono);
 }
 
 
@@ -134,19 +80,19 @@ void escribir_archivo_salida_personasOrdenadas(FILE* archivoSalida, t_list* list
 		fputs("\n",archivoSalida);
 		fseek(archivoSalida, 0, SEEK_END);
 		free(linea_a_escribir);
-
-			}
+	}
 
 	list_iterator_destroy(listIteratorPersonasOrdenadas);
-	//free(linea_a_escribir);
 }
 
 void procesar_archivos (FILE* archivoEntrada, FILE* archivoSalida) {
 	t_list* listaPersonas = leer_archivo_entrada(archivoEntrada);
 	list_sort(listaPersonas, (void*) comparadorPersona);
-	//list_iterate(listaPersonas, (void*)iteratorListPersonas);
 
-	escribir_archivo_salida_personasOrdenadas(archivoSalida, listaPersonas);
+	t_list* personasMayoresOrdenadas = list_filter(listaPersonas, (void*) soloMayores);
+
+	escribir_archivo_salida_personasOrdenadas(archivoSalida, personasMayoresOrdenadas);
 
 	list_destroy_and_destroy_elements(listaPersonas, (void*) *persona_destroy);
+	list_destroy(personasMayoresOrdenadas);
 }

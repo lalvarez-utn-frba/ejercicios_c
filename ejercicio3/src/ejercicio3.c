@@ -28,13 +28,12 @@ int main(void) {
 		return EXIT_FAILURE;
 	}
 
-	return EXIT_SUCCESS;
 	procesar_archivos(archivoEntrada, archivoSalida);
 
 	fclose(archivoEntrada);
 	fclose(archivoSalida);
-	//free(archivoEntrada);
-	//free(archivoSalida);
+
+	printf("Archivo procesado con exito! bye!");
 
 	return EXIT_SUCCESS;
 }
