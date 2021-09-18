@@ -19,5 +19,9 @@
 void procesar_archivos(FILE* archivoEntrada, FILE* archivoSalida);
 
 t_list* leer_archivo_entrada(FILE* archivo);
+void escribir_archivo_salida_personasOrdenadas(FILE* archivoSalida, t_list* listaPersonas);
+char* agregar_campo_lineaAEscribir(persona* unaPersona);
+
+void iteratorListPersonas(persona*);
 
 #endif /* PROCESAR_ARCHIVOS_H_ */

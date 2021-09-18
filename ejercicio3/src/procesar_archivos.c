@@ -8,6 +8,12 @@
 
 static bool comparadorPersona(persona*, persona*);
 
+static bool soloMayores(persona*);
+
+static bool soloMayores(persona* p) {
+	return p->edad > 18;
+}
+
 t_list* leer_archivo_entrada(FILE* archivo) {
 	char* lineaLeida=0;
 	size_t largoLinea = 0; //getline lee hasta encontrar un \0 o character nulo si el largo es 0.
@@ -56,9 +62,38 @@ static bool comparadorPersona(persona* p1, persona* p2) {
 	return result;
 }
 
+char* agregar_campo_lineaAEscribir(persona* unaPersona){
+	return string_from_format("%s | %i | %i | %s | %i", unaPersona->region, unaPersona->edad, unaPersona->dni, unaPersona->nombre_apellido, unaPersona->telefono);
+}
+
+
+
+void escribir_archivo_salida_personasOrdenadas(FILE* archivoSalida, t_list* listaPersonas){
+
+	fseek(archivoSalida, 0, SEEK_END);
+	char* linea_a_escribir = NULL;
+
+	t_list_iterator* listIteratorPersonasOrdenadas = list_iterator_create(listaPersonas);
+
+	while(list_iterator_has_next(listIteratorPersonasOrdenadas)) {
+		linea_a_escribir = agregar_campo_lineaAEscribir(list_iterator_next(listIteratorPersonasOrdenadas));
+		fputs(linea_a_escribir,archivoSalida);
+		fputs("\n",archivoSalida);
+		fseek(archivoSalida, 0, SEEK_END);
+		free(linea_a_escribir);
+	}
+
+	list_iterator_destroy(listIteratorPersonasOrdenadas);
+}
+
 void procesar_archivos (FILE* archivoEntrada, FILE* archivoSalida) {
 	t_list* listaPersonas = leer_archivo_entrada(archivoEntrada);
 	list_sort(listaPersonas, (void*) comparadorPersona);
 
+	t_list* personasMayoresOrdenadas = list_filter(listaPersonas, (void*) soloMayores);
+
+	escribir_archivo_salida_personasOrdenadas(archivoSalida, personasMayoresOrdenadas);
+
 	list_destroy_and_destroy_elements(listaPersonas, (void*) *persona_destroy);
+	list_destroy(personasMayoresOrdenadas);
 }
