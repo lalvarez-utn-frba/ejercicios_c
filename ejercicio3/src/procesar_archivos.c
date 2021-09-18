@@ -23,7 +23,7 @@ static void logearPersonasConSaldoMenorACien(t_list* personas) {
 	while (list_iterator_has_next(iterator)) {
 		p = list_iterator_next(iterator);
 		if (p->saldo < 100) {
-			printf("%s tiene un saldo de: %d\n", p->nombre_apellido, p->saldo);
+			printf("%s tiene un saldo de: %f\n", p->nombre_apellido, p->saldo);
 		}
 	}
 

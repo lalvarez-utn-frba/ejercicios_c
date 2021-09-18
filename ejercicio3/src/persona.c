@@ -17,7 +17,7 @@ persona* crear_persona_desde_string (char* linea) {
 	p->edad = strtol(campos[2], &ptr, 10);
 	p->telefono = strtol(campos[3], &ptr, 10);
 	p->dni = strtol(campos[4], &ptr, 10);
-	p->saldo = strtod(campos[5], &ptr);
+	p->saldo = strtod(campos[5], NULL);
 
 	free(campos[0]);
 	free(campos[1]);
