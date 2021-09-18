@@ -7,6 +7,7 @@
 #include "procesar_archivos.h"
 
 static bool comparadorPersona(persona*, persona*);
+
 static bool soloMayores(persona*);
 
 static bool soloMayores(persona* p) {
